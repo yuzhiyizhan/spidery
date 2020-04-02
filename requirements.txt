@@ -1,0 +1,6 @@
+redis
+threadpool
+scrapy
+requests
+faker
+flask
