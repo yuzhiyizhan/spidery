@@ -37,7 +37,7 @@ class JiangxianliSpider(scrapy.Spider):
                 yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
-        print('免费代理有启动')
+        print(f'{self.name}抓取代理成功')
         proxies_list = []
         proxy = response.xpath('//tr')[1:]
         for i in proxy:
@@ -54,13 +54,75 @@ class JiangxianliSpider(scrapy.Spider):
         self.pool.wait()
 
     def parse_pool(self, proxy):
+        def hailiangip():
+            try:
+                jisu = {'http': 'http://' + proxy}
+                response = requests.get(url='http://www.hailiangip.com/freeAgency/1', headers=VERIFICATION_HEADERS,
+                                        proxies=jisu,
+                                        timeout=2)
+                if response.status_code == 200:
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'hailiangip代理:{proxy}入库')
+                    self.r.sadd('hailiangip', proxy)
+                    self.r.expire('hailiangip', 600)
+            except:
+                pass
+
+        def jisu():
+            try:
+                jisu = {'http': 'http://' + proxy}
+                response = requests.get(url='http://www.superfastip.com/welcome/freeip/', headers=VERIFICATION_HEADERS,
+                                        proxies=jisu,
+                                        timeout=2)
+                if response.status_code == 200:
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'jisu代理:{proxy}入库')
+                    self.r.sadd('jisu', proxy)
+                    self.r.expire('jisu', 600)
+            except:
+                pass
+
+        def xsdaili():
+            try:
+                xsdaili = {'http': 'http://' + proxy}
+                response = requests.get(url='http://www.xsdaili.com/', headers=VERIFICATION_HEADERS, proxies=xsdaili,
+                                        timeout=2)
+                if response.status_code == 200:
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'xsdaili代理:{proxy}入库')
+                    self.r.sadd('xsdaili', proxy)
+                    self.r.expire('xsdaili', 600)
+            except:
+                pass
+
+        def ihuan():
+            try:
+                ihuan = {'http': 'http://' + proxy}
+                response = requests.get(url='http://ip.ihuan.me/', headers=VERIFICATION_HEADERS, proxies=ihuan,
+                                        timeout=2)
+                if response.status_code == 200:
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'ihuan代理:{proxy}入库')
+                    self.r.sadd('ihuan', proxy)
+                    self.r.expire('ihuan', 600)
+            except:
+                pass
+
+        def a66ip():
+            try:
+                a66ip = {'https': 'https://' + proxy}
+                response = requests.get(url='http://www.66ip.cn/1.html', headers=VERIFICATION_HEADERS, proxies=a66ip,
+                                        timeout=2)
+                if response.status_code == 200:
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'a66ip代理:{proxy}入库')
+                    self.r.sadd('a66ip', proxy)
+                    self.r.expire('a66ip', 600)
+            except:
+                pass
+
         def xici():
             try:
                 xici = {'https': 'https://' + proxy}
                 response = requests.get(url='https://www.xicidaili.com/nn/', headers=VERIFICATION_HEADERS, proxies=xici,
                                         timeout=2)
                 if response.status_code == 200:
-                    print(f'西刺代理:{proxy}入库')
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'西刺代理:{proxy}入库')
                     self.r.sadd('xici', proxy)
                     self.r.expire('xici', 600)
             except:
@@ -73,7 +135,7 @@ class JiangxianliSpider(scrapy.Spider):
                                         proxies=xila,
                                         timeout=2)
                 if response.status_code == 200:
-                    print(f'西拉代理:{proxy}入库')
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'西拉代理:{proxy}入库')
                     self.r.sadd('xila', proxy)
                     self.r.expire('xila', 600)
             except:
@@ -86,7 +148,7 @@ class JiangxianliSpider(scrapy.Spider):
                                         proxies=nima,
                                         timeout=2)
                 if response.status_code == 200:
-                    print(f'尼玛代理:{proxy}入库')
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'尼玛代理:{proxy}入库')
                     self.r.sadd('nima', proxy)
                     self.r.expire('nima', 600)
             except:
@@ -99,7 +161,7 @@ class JiangxianliSpider(scrapy.Spider):
                                         proxies=kuai,
                                         timeout=2)
                 if response.status_code == 200:
-                    print(f'快代理:{proxy}入库')
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'快代理:{proxy}入库')
                     self.r.sadd('kuai', proxy)
                     self.r.expire('kuai', 600)
             except:
@@ -113,7 +175,7 @@ class JiangxianliSpider(scrapy.Spider):
                                         proxies=jiangxianli,
                                         timeout=2)
                 if response.status_code == 200:
-                    print(f'免费代理:{proxy}入库')
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'免费代理:{proxy}入库')
                     self.r.sadd('jiangxianli', proxy)
                     self.r.expire('jiangxianli', 600)
             except:
@@ -126,19 +188,24 @@ class JiangxianliSpider(scrapy.Spider):
                                         proxies=ip3366,
                                         timeout=2)
                 if response.status_code == 200:
-                    print(f'ip3366代理:{proxy}入库')
+                    print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'ip3366代理:{proxy}入库')
                     self.r.sadd('ip3366', proxy)
                     self.r.expire('ip3366', 600)
             except:
                 pass
 
+        hailiangip = threading.Thread(target=hailiangip)
+        jisu = threading.Thread(target=jisu)
+        xsdaili = threading.Thread(target=xsdaili)
+        ihuan = threading.Thread(target=ihuan)
         xici = threading.Thread(target=xici)
         xila = threading.Thread(target=xila)
         nima = threading.Thread(target=nima)
         kuai = threading.Thread(target=kuai)
         jiangxianli = threading.Thread(target=jiangxianli)
         ip3366 = threading.Thread(target=ip3366)
-        thread = [xici, xila, nima, kuai, jiangxianli, ip3366]
+        a66ip = threading.Thread(target=a66ip)
+        thread = [xici, xila, nima, kuai, jiangxianli, ip3366, a66ip, ihuan, xsdaili, jisu, hailiangip]
         for i in thread:
             i.start()
         if PROXIES_MOD == 'HTTPS':

@@ -93,13 +93,13 @@ DOWNLOADER_MIDDLEWARES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # 爬取目标网站
-VERIFICATION_URL = 'https://www.zhipin.com/job_detail/?query=%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95%E5%B7%A5%E7%A8%8B%E5%B8%88&city=101280100&industry=&position='
+VERIFICATION_URL = 'https://www.mzitu.com/'
 # 爬取目标使用的请求头
 VERIFICATION_HEADERS = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en',
     'User-Agent': Faker().user_agent(),
-    'referer': 'https://www.zhipin.com/guangzhou/?ka=header-home',
+    'referer': 'https://www.mzitu.com/japan/',
 }
 # 代理类型（填HTTP或HTTPS）
 PROXIES_MOD = 'HTTPS'

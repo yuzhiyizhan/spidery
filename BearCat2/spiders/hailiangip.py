@@ -17,23 +17,20 @@ from BearCat2.settings import REDIS_CONNECT_TIMEOUT
 from BearCat2.settings import THREADPOOL
 
 
-# logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
-
-
-class XiciSpider(scrapy.Spider):
+class HailiangipSpider(scrapy.Spider):
     pool_redis = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, password=REDIS_PARAMS,
                                       decode_responses=True,
                                       max_connections=REDIS_MAXCONNECTIONS,
                                       socket_connect_timeout=REDIS_CONNECT_TIMEOUT)
     r = redis.Redis(connection_pool=pool_redis)
     pool = threadpool.ThreadPool(THREADPOOL)
-    name = 'xici'
-    allowed_domains = ['www.xicidaili.com/']
+    name = 'hailiangip'
+    allowed_domains = ['www.hailiangip.com/freeAgency/1']
 
     def start_requests(self):
         while True:
             for num in range(1, 11):
-                url = (f'https://www.xicidaili.com/nn/{num}/')
+                url = (f'http://www.hailiangip.com/freeAgency/1?page={num}')
                 yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
@@ -41,17 +38,17 @@ class XiciSpider(scrapy.Spider):
         proxies_list = []
         proxy = response.xpath('//tr')[1:]
         for i in proxy:
-            http = i.xpath('./td/text()')[4].get()
+            http = i.xpath('./td/text()')[2].get()
             if '高匿' in http:
                 ip = i.xpath('./td/text()')[0].get()
                 host = i.xpath('./td/text()')[1].get()
                 save = ip, host
                 proxies = save[0] + ':' + save[1]
                 proxies_list.append(proxies)
-        theading = threadpool.makeRequests(self.parse_pool, proxies_list)
-        for i in theading:
-            self.pool.putRequest(i)
-        self.pool.wait()
+            theading = threadpool.makeRequests(self.parse_pool, proxies_list)
+            for i in theading:
+                self.pool.putRequest(i)
+            self.pool.wait()
 
     def parse_pool(self, proxy):
         def hailiangip():

@@ -4,4 +4,9 @@ python3 nima_run.py &
 python3 kuai_run.py &
 python3 xici_run.py &
 python3 xila_run.py &
+python3 a66ip_run.py &
+python3 ihuan_run.py &
+python3 xsdaili_run.py &
+python3 jisu_run.py &
+python3 hailiangip_run.py &
 python3 verify.py &

@@ -148,6 +148,8 @@ class UserAgentDownloadMiddleware(object):
             return response
 
     def process_exception(self, request, exception, spider):
+        if 'ihuan' in spider.name:
+            return request
         try:
             p = re.split('//', request.meta['proxy'])[1]
             r.srem(f'{spider.name}', p)

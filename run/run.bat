@@ -4,4 +4,9 @@ start /b python nima_run.py
 start /b python kuai_run.py
 start /b python xici_run.py
 start /b python xila_run.py
+start /b python aip66_run.py
+start /b python ihuan_run.py
+start /b python xsdaili_run.py
+start /b python jisu_run.py
+start /b python hailiangip_run.py
 start /b python verify.py

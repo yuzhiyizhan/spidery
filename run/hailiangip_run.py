@@ -6,4 +6,4 @@ rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
 from scrapy import cmdline
 
-cmdline.execute(['scrapy', 'crawl', 'ip3366'])
+cmdline.execute(['scrapy', 'crawl', 'hailiangip'])

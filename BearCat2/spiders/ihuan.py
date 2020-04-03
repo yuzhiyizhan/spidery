@@ -17,34 +17,28 @@ from BearCat2.settings import REDIS_CONNECT_TIMEOUT
 from BearCat2.settings import THREADPOOL
 
 
-# logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
-
-
-class XiciSpider(scrapy.Spider):
+class IhuanSpider(scrapy.Spider):
     pool_redis = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, password=REDIS_PARAMS,
                                       decode_responses=True,
                                       max_connections=REDIS_MAXCONNECTIONS,
                                       socket_connect_timeout=REDIS_CONNECT_TIMEOUT)
     r = redis.Redis(connection_pool=pool_redis)
     pool = threadpool.ThreadPool(THREADPOOL)
-    name = 'xici'
-    allowed_domains = ['www.xicidaili.com/']
-
-    def start_requests(self):
-        while True:
-            for num in range(1, 11):
-                url = (f'https://www.xicidaili.com/nn/{num}/')
-                yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
+    name = 'ihuan'
+    allowed_domains = ['ip.ihuan.me/']
+    start_urls = ['http://ip.ihuan.me/']
 
     def parse(self, response):
         print(f'{self.name}抓取代理成功')
         proxies_list = []
         proxy = response.xpath('//tr')[1:]
+        urls = response.xpath('//ul[@class="pagination"]/li/a/@href').getall()[-1]
+        url = response.urljoin(urls)
         for i in proxy:
-            http = i.xpath('./td/text()')[4].get()
+            http = i.xpath('./td/a/text()').getall()[-1]
             if '高匿' in http:
-                ip = i.xpath('./td/text()')[0].get()
-                host = i.xpath('./td/text()')[1].get()
+                ip = i.xpath('./td/a/text()').get()
+                host = i.xpath('./td/text()').get()
                 save = ip, host
                 proxies = save[0] + ':' + save[1]
                 proxies_list.append(proxies)
@@ -52,6 +46,10 @@ class XiciSpider(scrapy.Spider):
         for i in theading:
             self.pool.putRequest(i)
         self.pool.wait()
+        if urls:
+            yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
+        else:
+            yield scrapy.Request(url='http://ip.ihuan.me/', callback=self.parse, dont_filter=True)
 
     def parse_pool(self, proxy):
         def hailiangip():

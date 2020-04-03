@@ -17,37 +17,32 @@ from BearCat2.settings import REDIS_CONNECT_TIMEOUT
 from BearCat2.settings import THREADPOOL
 
 
-# logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
-
-
-class XiciSpider(scrapy.Spider):
+class JisuSpider(scrapy.Spider):
     pool_redis = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, password=REDIS_PARAMS,
                                       decode_responses=True,
                                       max_connections=REDIS_MAXCONNECTIONS,
                                       socket_connect_timeout=REDIS_CONNECT_TIMEOUT)
     r = redis.Redis(connection_pool=pool_redis)
     pool = threadpool.ThreadPool(THREADPOOL)
-    name = 'xici'
-    allowed_domains = ['www.xicidaili.com/']
+    name = 'jisu'
+    allowed_domains = ['www.superfastip.com/welcome/freeip']
 
     def start_requests(self):
         while True:
             for num in range(1, 11):
-                url = (f'https://www.xicidaili.com/nn/{num}/')
+                url = (f'http://www.superfastip.com/welcome/freeip/{num}')
                 yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
         print(f'{self.name}抓取代理成功')
         proxies_list = []
-        proxy = response.xpath('//tr')[1:]
+        proxy = response.xpath('//tr')[5:]
         for i in proxy:
-            http = i.xpath('./td/text()')[4].get()
-            if '高匿' in http:
-                ip = i.xpath('./td/text()')[0].get()
-                host = i.xpath('./td/text()')[1].get()
-                save = ip, host
-                proxies = save[0] + ':' + save[1]
-                proxies_list.append(proxies)
+            ip = i.xpath('./td/text()').get()
+            host = i.xpath('./td/text()')[1].get()
+            save = ip, host
+            proxies = save[0] + ':' + save[1]
+            proxies_list.append(proxies)
         theading = threadpool.makeRequests(self.parse_pool, proxies_list)
         for i in theading:
             self.pool.putRequest(i)
