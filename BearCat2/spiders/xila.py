@@ -15,6 +15,7 @@ from BearCat2.settings import REDIS_DB
 from BearCat2.settings import REDIS_MAXCONNECTIONS
 from BearCat2.settings import REDIS_CONNECT_TIMEOUT
 from BearCat2.settings import THREADPOOL
+from BearCat2.settings import DOWNLOAD_TIMEOUT
 
 
 class XilaSpider(scrapy.Spider):
@@ -50,10 +51,10 @@ class XilaSpider(scrapy.Spider):
     def parse_pool(self, proxy):
         def hailiangip():
             try:
-                jisu = {'http': 'http://' + proxy}
+                hailiangip = {'http': 'http://' + proxy}
                 response = requests.get(url='http://www.hailiangip.com/freeAgency/1', headers=VERIFICATION_HEADERS,
-                                        proxies=jisu,
-                                        timeout=2)
+                                        proxies=hailiangip,
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'hailiangip代理:{proxy}入库')
                     self.r.sadd('hailiangip', proxy)
@@ -66,7 +67,7 @@ class XilaSpider(scrapy.Spider):
                 jisu = {'http': 'http://' + proxy}
                 response = requests.get(url='http://www.superfastip.com/welcome/freeip/', headers=VERIFICATION_HEADERS,
                                         proxies=jisu,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'jisu代理:{proxy}入库')
                     self.r.sadd('jisu', proxy)
@@ -78,7 +79,7 @@ class XilaSpider(scrapy.Spider):
             try:
                 xsdaili = {'http': 'http://' + proxy}
                 response = requests.get(url='http://www.xsdaili.com/', headers=VERIFICATION_HEADERS, proxies=xsdaili,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'xsdaili代理:{proxy}入库')
                     self.r.sadd('xsdaili', proxy)
@@ -90,7 +91,7 @@ class XilaSpider(scrapy.Spider):
             try:
                 ihuan = {'http': 'http://' + proxy}
                 response = requests.get(url='http://ip.ihuan.me/', headers=VERIFICATION_HEADERS, proxies=ihuan,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'ihuan代理:{proxy}入库')
                     self.r.sadd('ihuan', proxy)
@@ -102,7 +103,7 @@ class XilaSpider(scrapy.Spider):
             try:
                 a66ip = {'https': 'https://' + proxy}
                 response = requests.get(url='http://www.66ip.cn/1.html', headers=VERIFICATION_HEADERS, proxies=a66ip,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'a66ip代理:{proxy}入库')
                     self.r.sadd('a66ip', proxy)
@@ -114,7 +115,7 @@ class XilaSpider(scrapy.Spider):
             try:
                 xici = {'https': 'https://' + proxy}
                 response = requests.get(url='https://www.xicidaili.com/nn/', headers=VERIFICATION_HEADERS, proxies=xici,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'西刺代理:{proxy}入库')
                     self.r.sadd('xici', proxy)
@@ -127,7 +128,7 @@ class XilaSpider(scrapy.Spider):
                 xila = {'http': 'http://' + proxy}
                 response = requests.get(url='http://www.xiladaili.com/gaoni/', headers=VERIFICATION_HEADERS,
                                         proxies=xila,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'西拉代理:{proxy}入库')
                     self.r.sadd('xila', proxy)
@@ -140,7 +141,7 @@ class XilaSpider(scrapy.Spider):
                 nima = {'http': 'http://' + proxy}
                 response = requests.get(url='http://www.nimadaili.com/gaoni/', headers=VERIFICATION_HEADERS,
                                         proxies=nima,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'尼玛代理:{proxy}入库')
                     self.r.sadd('nima', proxy)
@@ -153,7 +154,7 @@ class XilaSpider(scrapy.Spider):
                 kuai = {'https': 'https://' + proxy}
                 response = requests.get(url='https://www.kuaidaili.com/free/inha/', headers=VERIFICATION_HEADERS,
                                         proxies=kuai,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'快代理:{proxy}入库')
                     self.r.sadd('kuai', proxy)
@@ -167,7 +168,7 @@ class XilaSpider(scrapy.Spider):
                 response = requests.get(url='https://ip.jiangxianli.com/?page=1&anonymity=2',
                                         headers=VERIFICATION_HEADERS,
                                         proxies=jiangxianli,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'免费代理:{proxy}入库')
                     self.r.sadd('jiangxianli', proxy)
@@ -180,7 +181,7 @@ class XilaSpider(scrapy.Spider):
                 ip3366 = {'http': 'http://' + proxy}
                 response = requests.get(url='http://www.ip3366.net/free/?stype=1&page=1', headers=VERIFICATION_HEADERS,
                                         proxies=ip3366,
-                                        timeout=2)
+                                        timeout=DOWNLOAD_TIMEOUT)
                 if response.status_code == 200:
                     print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'ip3366代理:{proxy}入库')
                     self.r.sadd('ip3366', proxy)
@@ -202,13 +203,14 @@ class XilaSpider(scrapy.Spider):
         thread = [xici, xila, nima, kuai, jiangxianli, ip3366, a66ip, ihuan, xsdaili, jisu, hailiangip]
         for i in thread:
             i.start()
+            i.join()
         if PROXIES_MOD == 'HTTPS':
             proxies = {'https': 'https://' + proxy}
             error = 0
             while True:
                 try:
                     response = requests.get(url=VERIFICATION_URL, headers=VERIFICATION_HEADERS, proxies=proxies,
-                                            timeout=2)
+                                            timeout=DOWNLOAD_TIMEOUT)
                     if response.status_code == 200:
                         print(strftime("%Y-%m-%d %H:%M:%S", localtime()),
                               f'\033[1;32;40m可用ip:{proxy}重试过{error}次,代理来自{self.name}\033[0m')
@@ -228,7 +230,7 @@ class XilaSpider(scrapy.Spider):
             while True:
                 try:
                     response = requests.get(url=VERIFICATION_URL, headers=VERIFICATION_HEADERS, proxies=proxies,
-                                            timeout=2)
+                                            timeout=DOWNLOAD_TIMEOUT)
                     if response.status_code == 200:
                         print(strftime("%Y-%m-%d %H:%M:%S", localtime()),
                               f'\033[1;32;40m可用ip:{proxy}重试过{error}次,代理来自{self.name}\033[0m')

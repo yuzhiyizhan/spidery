@@ -140,15 +140,12 @@ class UserAgentDownloadMiddleware(object):
         #         request.meta['proxy'] = 'http://' + r.srandmember('https')
 
     def process_response(self, request, response, spider):
-
-        if response.status != 200:
-            print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'请求失败网址:{response.url}响应码:{request.status}')
         if response.status == 200:
             print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'请求成功网址为:{response.url}')
             return response
 
     def process_exception(self, request, exception, spider):
-        if 'ihuan' in spider.name:
+        if 'ihuan' == spider.name:
             return request
         try:
             p = re.split('//', request.meta['proxy'])[1]

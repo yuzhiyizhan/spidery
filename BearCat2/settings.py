@@ -25,7 +25,8 @@ ROBOTSTXT_OBEY = False
 LOG_ENABLED = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 100
-DOWNLOAD_TIMEOUT = 2
+#下载器超时时间
+DOWNLOAD_TIMEOUT = 3
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
@@ -111,7 +112,7 @@ REDIS_PORT = '6379'
 # redis密码
 REDIS_PARAMS = ''
 # redis db
-REDIS_DB = 0
+REDIS_DB = 1
 # redis最大连接数
 REDIS_MAXCONNECTIONS = 100
 # redis超时时间
@@ -119,6 +120,6 @@ REDIS_CONNECT_TIMEOUT = 30
 # 多爬虫启动配置
 COMMANDS_MODULE = 'BearCat2.commands'
 # 验证模块等待多长时间验证全部代理活性
-VERIFY_TIME = 180
+VERIFY_TIME = 600
 # 验证代理线程数(越大越快,资源占用也越多)
-THREADPOOL = 20
+THREADPOOL = 10
