@@ -25,7 +25,7 @@ ROBOTSTXT_OBEY = False
 LOG_ENABLED = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 100
-#下载器超时时间
+# 下载器超时时间
 DOWNLOAD_TIMEOUT = 3
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -94,14 +94,23 @@ DOWNLOADER_MIDDLEWARES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # 爬取目标网站
-VERIFICATION_URL = 'https://www.mzitu.com/'
+VERIFICATION_URL = 'https://music.163.com/'
 # 爬取目标使用的请求头
+# VERIFICATION_HEADERS = {
+#     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+#     'Accept-Language': 'en',
+#     'User-Agent': Faker().user_agent(),
+#     'referer': 'https://www.mzitu.com/japan/',
+# }
+
+
 VERIFICATION_HEADERS = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en',
     'User-Agent': Faker().user_agent(),
-    'referer': 'https://www.mzitu.com/japan/',
+    'referer': 'https://music.163.com/',
 }
+
 # 代理类型（填HTTP或HTTPS）
 PROXIES_MOD = 'HTTPS'
 # redis服务配置
@@ -117,9 +126,10 @@ REDIS_DB = 1
 REDIS_MAXCONNECTIONS = 100
 # redis超时时间
 REDIS_CONNECT_TIMEOUT = 30
-# 多爬虫启动配置
-COMMANDS_MODULE = 'BearCat2.commands'
 # 验证模块等待多长时间验证全部代理活性
 VERIFY_TIME = 600
 # 验证代理线程数(越大越快,资源占用也越多)
-THREADPOOL = 10
+THREADPOOL = 25
+# 代理超时时间(单位:秒)<int>
+REDIS_TIMEOUT = False
+

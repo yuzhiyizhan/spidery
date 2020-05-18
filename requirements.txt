@@ -1,6 +1,7 @@
 redis
-threadpool
 scrapy
-requests
 faker
 flask
+loguru
+requests
+threadpool

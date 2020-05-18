@@ -9,15 +9,3 @@
 class Bearcat2Pipeline(object):
     def process_item(self, item, spider):
         return item
-
-
-class ProxiesPipeline(object):
-    def __init__(self):
-        print('准备处理')
-
-    def process_item(self, item, spider):
-        print(item)
-        return item
-
-    def close_spider(self, item):
-        print('结束')

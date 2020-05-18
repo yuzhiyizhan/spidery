@@ -5,10 +5,10 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import re
-from time import strftime, localtime
+import redis
 from scrapy import signals
 from faker import Faker
-import redis
+from BearCat2.LOG import log
 from BearCat2.settings import REDIS_HOST
 from BearCat2.settings import REDIS_PORT
 from BearCat2.settings import REDIS_PARAMS
@@ -141,7 +141,7 @@ class UserAgentDownloadMiddleware(object):
 
     def process_response(self, request, response, spider):
         if response.status == 200:
-            print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'请求成功网址为:{response.url}')
+            log(f'请求成功网址为:{response.url}')
             return response
 
     def process_exception(self, request, exception, spider):
@@ -152,27 +152,6 @@ class UserAgentDownloadMiddleware(object):
             r.srem(f'{spider.name}', p)
         except:
             pass
-        print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'请求失败错误信息为:{exception}')
-        print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'请求失败网址为:{request.url}')
-        if r.scard(f'{spider.name}') > 0:
-            proxies = r.srandmember(f'{spider.name}')
-            if spider.name == 'xici' or 'kuai' or 'jiangxianli':
-                request.meta['proxy'] = 'https://' + proxies
-                print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'\033[1;31;40m准备重试:{request.url}\033[0m')
-                return request
-            else:
-                request.meta['proxy'] = 'http://' + proxies
-                print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'\033[1;31;40m准备重试:{request.url}\033[0m')
-                return request
-        # if 'https' in request.url:
-        #     if r.scard('https') > 0:
-        #         proxies = requests.get(url='http://127.0.0.1:5555/https').text
-        #         request.meta['proxy'] = 'https://' + proxies
-        #         print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'\033[1;31;40m准备重试:{request.url}\033[0m')
-        #         return request
-        # else:
-        #     if r.scard('http') > 0:
-        #         proxies = requests.get(url='http://127.0.0.1:5555/http').text
-        #         request.meta['proxy'] = 'http://' + proxies
-        #         print(strftime("%Y-%m-%d %H:%M:%S", localtime()), f'\033[1;31;40m准备重试:{request.url}\033[0m')
-        #         return request
+        log(f'请求失败错误信息为:{exception}', False)
+        log(f'请求失败网址为:{request.url}', False)
+

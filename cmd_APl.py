@@ -1,7 +1,7 @@
 '''接口模块'''
 import re
-import sys
 import os
+import sys
 import redis
 from flask import Flask, request
 from BearCat2.settings import REDIS_HOST
