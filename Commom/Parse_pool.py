@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import redis
 import requests
-from BearCat2.LOG import log
+from Commom.LOG import log
 from BearCat2.settings import REDIS_DB
 from BearCat2.settings import REDIS_HOST
 from BearCat2.settings import REDIS_PORT

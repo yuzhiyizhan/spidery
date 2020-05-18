@@ -214,3 +214,5 @@ class A66ipSpider(scrapy.Spider):
             self.pool.putRequest(i)
         self.pool.wait()
 ```
+
+在Confs添加爬虫名即可

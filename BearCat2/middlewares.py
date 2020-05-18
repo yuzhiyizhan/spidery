@@ -8,7 +8,7 @@ import re
 import redis
 from scrapy import signals
 from faker import Faker
-from BearCat2.LOG import log
+from Commom.LOG import log
 from BearCat2.settings import REDIS_HOST
 from BearCat2.settings import REDIS_PORT
 from BearCat2.settings import REDIS_PARAMS
