@@ -1,7 +1,11 @@
 import time
 from loguru import logger
 
+<<<<<<< HEAD
 logger.level("PASS", no=38, color="<green>")
+=======
+gger.level("PASS", no=38, color="<green>")
+>>>>>>> a20685c0e20555a8cf1e9f98dd41d009298ce447
 
 def log(prints, Boolean=True):
     if Boolean == True:
@@ -26,4 +30,8 @@ def log(prints, Boolean=True):
                   "\033[0;34;40mINFO\033[0m", f"\033[0;34;40m{prints}\033[0m")
 
     else:
+<<<<<<< HEAD
         raise Exception("log函数没设置布尔值或DEBUG")
+=======
+        raise Exception("log函数没设置布尔值或INFO")
+>>>>>>> a20685c0e20555a8cf1e9f98dd41d009298ce447
