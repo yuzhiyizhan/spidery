@@ -132,16 +132,12 @@ class UserAgentDownloadMiddleware(object):
     def process_request(self, request, spider):
         user_agent = Faker().user_agent()
         request.headers['User-Agent'] = user_agent
-        # if 'https' in request.url:
-        #     if r.scard('https') > 0:
-        #         request.meta['proxy'] = 'https://' + r.srandmember('https')
-        # else:
-        #     if r.scard('http') > 0:
-        #         request.meta['proxy'] = 'http://' + r.srandmember('https')
 
+
+class LogDownloadMiddleware(object):
     def process_response(self, request, response, spider):
         if response.status == 200:
-            log(f'请求成功网址为:{response.url}')
+            log(f'请求成功网址为:{response.url}', 'DEBUG')
             return response
 
     def process_exception(self, request, exception, spider):
@@ -154,4 +150,3 @@ class UserAgentDownloadMiddleware(object):
             pass
         log(f'请求失败错误信息为:{exception}', False)
         log(f'请求失败网址为:{request.url}', False)
-

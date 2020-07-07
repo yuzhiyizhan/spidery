@@ -21,7 +21,7 @@ NEWSPIDER_MODULE = 'BearCat2.spiders'
 RETRY_TIMES = 1
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-# 是否启用logging
+# # 是否启用logging
 LOG_ENABLED = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 # CONCURRENT_REQUESTS = 100
@@ -42,8 +42,6 @@ COOKIES_ENABLED = False
 # TELNETCONSOLE_ENABLED = False
 # Override the default request headers:
 DEFAULT_REQUEST_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en',
     'User-Agent': Faker().user_agent(),
 }
 
@@ -56,8 +54,9 @@ DEFAULT_REQUEST_HEADERS = {
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.retry.RetryMiddleware': 201,
+    'BearCat2.middlewares.LogDownloadMiddleware': 542,
     'BearCat2.middlewares.UserAgentDownloadMiddleware': 543,
-
 }
 
 # Enable or disable extensions
@@ -94,21 +93,10 @@ DOWNLOADER_MIDDLEWARES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # 爬取目标网站
-VERIFICATION_URL = 'https://music.163.com/'
+VERIFICATION_URL = 'https://www.lagou.com/'
 # 爬取目标使用的请求头
-# VERIFICATION_HEADERS = {
-#     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-#     'Accept-Language': 'en',
-#     'User-Agent': Faker().user_agent(),
-#     'referer': 'https://www.mzitu.com/japan/',
-# }
-
-
 VERIFICATION_HEADERS = {
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'en',
     'User-Agent': Faker().user_agent(),
-    'referer': 'https://music.163.com/',
 }
 
 # 代理类型（填HTTP或HTTPS）
@@ -127,9 +115,8 @@ REDIS_MAXCONNECTIONS = 100
 # redis超时时间
 REDIS_CONNECT_TIMEOUT = 30
 # 验证模块等待多长时间验证全部代理活性
-VERIFY_TIME = 600
+VERIFY_TIME = 180
 # 验证代理线程数(越大越快,资源占用也越多)
 THREADPOOL = 25
 # 代理超时时间(单位:秒)<int>
 REDIS_TIMEOUT = False
-

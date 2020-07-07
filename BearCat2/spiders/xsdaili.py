@@ -35,7 +35,7 @@ class XsdailiSpider(scrapy.Spider):
                 yield scrapy.Request(url='http://www.xsdaili.com/', callback=self.parse_next, dont_filter=True)
 
     def parse_next(self, response):
-        log(f'{self.name}抓取代理成功')
+        log(f'{self.name}抓取代理成功', 'DEBUG')
         proxies_list = re.findall(r'(?:(?:[0,1]?\d?\d|2[0-4]\d|25[0-5])\.){3}(?:[0,1]?\d?\d|2[0-4]\d|25[0-5])',
                                   response.text)
         proxies_lists = [[self.name, i] for i in proxies_list]

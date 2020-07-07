@@ -25,7 +25,7 @@ class IhuanSpider(scrapy.Spider):
     start_urls = ['http://ip.ihuan.me/']
 
     def parse(self, response):
-        log(f'{self.name}抓取代理成功')
+        log(f'{self.name}抓取代理成功', 'DEBUG')
         proxies_list = []
         proxy = response.xpath('//tr')[1:]
         urls = response.xpath('//ul[@class="pagination"]/li/a/@href').getall()[-1]

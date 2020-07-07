@@ -29,7 +29,7 @@ class XiciSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
 
     def parse(self, response):
-        log(f'{self.name}抓取代理成功')
+        log(f'{self.name}抓取代理成功', 'DEBUG')
         proxies_list = []
         proxy = response.xpath('//tr')[1:]
         for i in proxy:

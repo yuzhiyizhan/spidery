@@ -40,7 +40,7 @@ def parse_pool(proxy):
                     requests.get(url=f'http://127.0.0.1:5555/deletes?delete={proxy}')
                     break
                 else:
-                    log(f'重试ip{error}次:{proxy}', "INFO")
+                    log(f'重试ip{error}次:{proxy}', "DEBUG")
                     continue
     if PROXIES_MOD == 'HTTP':
         proxies = {'http': 'http://' + proxy}
@@ -60,7 +60,7 @@ def parse_pool(proxy):
                 requests.get(url=f'http://127.0.0.1:5555/delete?delete={proxy}')
                 break
             else:
-                log(f'重试ip{error}次:{proxy}', "INFO")
+                log(f'重试ip{error}次:{proxy}', "DEBUG")
                 continue
 
 

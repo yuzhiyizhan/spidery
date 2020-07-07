@@ -41,7 +41,7 @@ def parse_pool(proxy):
                     log(f'无效ip:{proxy[1]}', False)
                     break
                 else:
-                    log(f'重试ip{error}次:{proxy[1]}', "INFO")
+                    log(f'重试ip{error}次:{proxy[1]}', "DEBUG")
                     continue
     if PROXIES_MOD == 'HTTP':
         proxies = {'http': 'http://' + proxy[1]}
@@ -62,5 +62,5 @@ def parse_pool(proxy):
                 log(f'无效ip:{proxy[1]}', False)
                 break
             else:
-                log(f'重试ip{error}次:{proxy[1]}', "INFO")
+                log(f'重试ip{error}次:{proxy[1]}', "DEBUG")
                 continue
