@@ -4,4 +4,3 @@ faker
 flask
 loguru
 requests
-threadpool

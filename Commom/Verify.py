@@ -1,7 +1,7 @@
 import time
 import redis
 import requests
-import threadpool
+
 from Commom.LOG import log
 from BearCat2.settings import REDIS_DB
 from BearCat2.settings import REDIS_HOST
@@ -14,11 +14,11 @@ from BearCat2.settings import VERIFICATION_URL
 from BearCat2.settings import VERIFICATION_HEADERS
 from BearCat2.settings import REDIS_MAXCONNECTIONS
 from BearCat2.settings import REDIS_CONNECT_TIMEOUT
+from concurrent.futures import ThreadPoolExecutor
 
 pool = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, password=REDIS_PARAMS, decode_responses=True,
                             max_connections=REDIS_MAXCONNECTIONS, socket_connect_timeout=REDIS_CONNECT_TIMEOUT)
 r = redis.Redis(connection_pool=pool)
-pool = threadpool.ThreadPool(THREADPOOL)
 
 
 def parse_pool(proxy):
@@ -70,21 +70,17 @@ def verify():
             if r.scard('https') == 0:
                 continue
             proxy_list = r.srandmember('https', r.scard('https'))
-            theading = threadpool.makeRequests(parse_pool, proxy_list)
-            for i in theading:
-                pool.putRequest(i)
-            pool.wait()
+            with ThreadPoolExecutor(max_workers=THREADPOOL) as t:
+                for i in proxy_list:
+                    t.submit(parse_pool, i)
             time.sleep(VERIFY_TIME)
 
         if PROXIES_MOD == 'HTTP':
             if r.scard('http') == 0:
                 continue
             proxy_list = r.srandmember('http', r.scard('http'))
-            theading = threadpool.makeRequests(parse_pool, proxy_list)
-            for i in theading:
-                pool.putRequest(i)
-            pool.wait()
+            with ThreadPoolExecutor(max_workers=THREADPOOL) as t:
+                for i in proxy_list:
+                    t.submit(parse_pool, i)
             time.sleep(VERIFY_TIME)
-
-
-
+            time.sleep(VERIFY_TIME)

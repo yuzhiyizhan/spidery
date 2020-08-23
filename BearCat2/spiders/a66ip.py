@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import redis
 import scrapy
-import threadpool
 from Commom.LOG import log
 from Commom.Parse_pool import parse_pool
 from BearCat2.settings import REDIS_DB
@@ -11,6 +10,7 @@ from BearCat2.settings import THREADPOOL
 from BearCat2.settings import REDIS_PARAMS
 from BearCat2.settings import REDIS_MAXCONNECTIONS
 from BearCat2.settings import REDIS_CONNECT_TIMEOUT
+from concurrent.futures import ThreadPoolExecutor
 
 
 class A66ipSpider(scrapy.Spider):
@@ -19,7 +19,6 @@ class A66ipSpider(scrapy.Spider):
                                       max_connections=REDIS_MAXCONNECTIONS,
                                       socket_connect_timeout=REDIS_CONNECT_TIMEOUT)
     r = redis.Redis(connection_pool=pool_redis)
-    pool = threadpool.ThreadPool(THREADPOOL)
     name = 'a66ip'
     allowed_domains = ['www.66ip.cn/']
 
@@ -41,8 +40,7 @@ class A66ipSpider(scrapy.Spider):
                 save = ip, host
                 proxies = save[0] + ':' + save[1]
                 proxies_list.append(proxies)
-        proxies_lists = [[self.name, i] for i in proxies_list]
-        theading = threadpool.makeRequests(parse_pool, proxies_lists)
-        for i in theading:
-            self.pool.putRequest(i)
-        self.pool.wait()
+        proxies_list = [[self.name, i] for i in proxies_list]
+        with ThreadPoolExecutor(max_workers=THREADPOOL) as t:
+            for i in proxies_list:
+                t.submit(parse_pool, i)

@@ -93,10 +93,11 @@ DOWNLOADER_MIDDLEWARES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # 爬取目标网站
-VERIFICATION_URL = 'https://www.lagou.com/'
+VERIFICATION_URL = 'https://www.mzitu.com/japan/'
 # 爬取目标使用的请求头
 VERIFICATION_HEADERS = {
-    'User-Agent': Faker().user_agent(),
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36',
+    'referer': 'https://www.mzitu.com/japan/',
 }
 
 # 代理类型（填HTTP或HTTPS）
